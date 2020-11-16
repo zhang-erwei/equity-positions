@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Equity Positions</title>
+<link rel="stylesheet" href="css/bootstrap.min.css" />
+</head>
+
+<body>
+<div class="container">
+	<div class="col-sm-12">
+		<h1>Equity Positions</h1>
+		
+	</div>
+	<div class="col-sm-12">
+		<form action="./buy" method="POST" id="tradeForm">
+		SecurityCode: <input name="securityCode" type="text"> 
+		Quantity:<input name="quantity" type="text">
+		<input value="买入" type="button" onclick="buyClick()" ><input value="卖出" type="button"  onclick="sellClick()" >
+		</form>
+	</div>
+	<div>
+	    <h2>Trades</h2>
+		<table class="table table-striped table-bordered table-hover" >
+			<thead>
+			<tr>
+				<th>TradeID</th>
+				<th>SecurityCode</th>
+				<th>Quantity</th>
+				<th>Buy/Sell</th>
+				<th>Canceled</th>
+				<th>CreateTime</th>
+				<th>UpdateTime</th>
+				<th></th>
+			</tr>
+			</thead>
+			<tbody th:each="trade,stat : ${trades}" >
+			<tr th:classappend="${(stat.odd ? 'odd gradeX' : 'even gradeC')}">
+				<td th:text="${trade.id}"></td>
+				<td th:text="${trade.securityCode}" ></td>
+				<td th:text="${trade.quantity}" ></td>
+				<td th:switch="${trade.type}">
+			        <span th:case="1">Buy</span>
+			        <span th:case="2">Sell</span>
+				</td>
+				<td th:switch="${trade.cancel}">
+			        <span th:case="true">YES</span>
+			        <span th:case="false">NO</span>
+				</td>
+				<td class="center" th:text="${trade.createTime}"></td>
+				<td class="center" th:text="${trade.updateTime}"></td>
+				<td th:if="${trade.cancel} == false">
+			        <form action="./cancel" method="POST">
+			          <input name="tradeId" type="hidden" th:value="${trade.id}"> 
+			          <input value="撤消" type="submit">
+
+					 </form>				 
+			          <input value="更改" type="button" 
+			          th:attr="data-tradeId=${trade.id},data-securityCode=${trade.securityCode},data-quantity=${trade.quantity},data-tradeType=${trade.type}" 
+			          th:onclick="updateClick(this)">
+				</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div>
+	    <h2>Transactions</h2>
+		<table class="table table-striped table-bordered table-hover" >
+			<thead>
+			<tr>
+				<th>TransactionID</th>
+				<th>TradeID</th>
+				<th>Version</th>
+				<th>SecurityCode</th>
+				<th>Quantity</th>
+				<th>Insert/Update/Cancel</th>
+				<th>Buy/Sell</th>
+				<th>CreateTime</th>
+			</tr>
+			</thead>
+			<tbody th:each="trans : ${transactions}" >
+			<tr class="odd gradeX">
+				<td th:text="${trans.id}"></td>
+				<td th:text="${trans.tradeId}"></td>
+				<td th:text="${trans.version}"></td>
+				<td th:text="${trans.securityCode}" ></td>
+				<td th:text="${trans.quantity}" ></td>
+				<td th:text="${trans.transactionType}" ></td>
+				<td th:switch="${trans.tradeType}">
+			        <span th:case="1">Buy</span>
+			        <span th:case="2">Sell</span>
+				</td>
+				<td class="center" th:text="${trans.createTime}"></td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+	
+	<div>
+	    <h2>Positions:</h2>
+		<table class="table table-striped table-bordered table-hover" >
+			<thead>
+			<tr>
+				<th>SecurityCode</th>
+				<th>Quantity</th>
+			</tr>
+			</thead>
+			<tbody th:each="position : ${positions}" >
+			<tr class="odd gradeX">
+				<td th:text="${position.securityCode}" ></td>
+				<td th:text="${position.quantity}" ></td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">更改</h4>
+            </div>
+            <div class="modal-body">
+            <form action="./update" method="POST">
+                <input name="tradeId" id="tradeId" type="hidden"> 
+				SecurityCode: <input name="securityCode" id="securityCode" type="text"> <br>
+				Quantity:<input name="quantity" id="quantity" type="text">
+				<label><input name="tradeType" id="tradeType1" type="radio" value="1" />买入</label> 
+				<label><input name="tradeType" id="tradeType2" type="radio" value="2" />卖出 </label>
+				<br>
+				<input value="提交" type="submit" >
+				</form>
+            </div>
+            <!-- <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary">提交更改</button>
+            </div> -->
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+	<!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
+      <script src="js/jquery-1.11.3.min.js"></script>
+      <!-- 包括所有已编译的插件 -->
+      <script src="js/bootstrap.min.js"></script>
+      <script type="text/javascript">
+      function buyClick(){
+    	  $("#tradeForm").action="./buy";
+    	  $("#tradeForm").submit();
+    	  
+      }
+      
+      function sellClick(){
+    	  $("#tradeForm").action="./sell";
+    	  $("#tradeForm").submit();
+    	  
+      }
+      function updateClick(_self){
+    	  $("#tradeId").val(_self.getAttribute("data-tradeId"));
+    	  $("#securityCode").val(_self.getAttribute("data-securityCode"));
+    	  $("#quantity").val(_self.getAttribute("data-quantity"));
+    	  var tradeType=_self.getAttribute("data-tradeType");
+    	  $("#tradeType"+tradeType).attr("checked", true);
+    	  $('#myModal').modal('show');
+      }
+      </script>
+      
+</body>
+</html>

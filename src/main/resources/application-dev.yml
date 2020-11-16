@@ -1,0 +1,42 @@
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 200MB
+      max-request-size: 200MB
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:h2:~/test2
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: 123456
+    druid: 
+       initial-size: 5
+       min-idle: 5
+       max-active: 30
+       max-wait: 60000
+       time-between-eviction-runs-millis: 60000
+       min-evictable-idle-time-millis: 300000
+       max-evictable-idle-time-millis: 3600000
+       validation-query: select 1
+       test-while-idle: true
+       test-on-borrow: false
+       test-on-return: false
+       filters: stat,wall,slf4j
+       use-global-data-source-stat: true
+mybatis:
+  configuration:
+    #开启驼峰命名
+    map-underscore-to-camel-case: true
+    #指定sql映射文件位置
+#    mapper-locations: classpath*:mapper/*.xml
+logging:
+  file:
+    name: /usr/local/logs/ecard/ecard.log
+    max-size: 30MB
+    max-history: 10
+  level:
+    root: INFO
+    org.hibernate.SQL: DEBUG
+    druid.sql.Statement: DEBUG
+    com.cesgroup.card: DEBUG

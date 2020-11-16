@@ -1,0 +1,1 @@
+INSERT INTO t_equity_position ( security_code,quantity ) VALUES( "AB",99 );

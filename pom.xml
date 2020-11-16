@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.2.6.RELEASE</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.erwei</groupId>
+	<artifactId>equity-positions</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>Equity Positions</name>
+	<description>Demo project for Spring Boot</description>
+
+	<properties>
+		<java.version>1.8</java.version>
+        <spring.profile>dev</spring.profile>
+	</properties>
+
+
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		
+		<dependency>
+		  <groupId>tk.mybatis</groupId>
+		  <artifactId>mapper-spring-boot-starter</artifactId>
+		  <version>2.1.5</version>
+		</dependency>
+		
+		<dependency>
+		  <groupId>tk.mybatis</groupId>
+		  <artifactId>mapper</artifactId>
+		  <version>4.1.5</version>
+		</dependency>
+		
+		<dependency>
+		  <groupId>com.github.pagehelper</groupId>
+		  <artifactId>pagehelper-spring-boot-starter</artifactId>
+		  <!-- <version>1.2.13</version> -->
+		  <version>1.2.6</version>
+		 <exclusions>
+				<exclusion>
+					<groupId>com.github.pagehelper</groupId>
+					<artifactId>pagehelper-spring-boot-autoconfigure</artifactId>
+				</exclusion>
+			</exclusions>
+		 </dependency>
+		
+		<dependency>
+		  <groupId>org.apache.shiro</groupId>
+		  <artifactId>shiro-spring</artifactId>
+		  <version>1.5.1</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+		
+		<dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+		
+		
+		<dependency>
+		  <groupId>org.apache.commons</groupId>
+		  <artifactId>commons-lang3</artifactId>
+		  <!-- <version>3.1</version> -->
+		</dependency>
+		
+		<dependency>
+		  <groupId>commons-io</groupId>
+		  <artifactId>commons-io</artifactId>
+		  <version>2.5</version>
+		</dependency>
+		
+		<dependency>
+		  <groupId>commons-net</groupId>
+		  <artifactId>commons-net</artifactId>
+		  <version>3.1</version>
+		</dependency>
+
+		<dependency>
+		  <groupId>com.alibaba</groupId>
+		  <artifactId>fastjson</artifactId>
+		  <version>1.2.7.sec01</version>
+		</dependency>
+
+		 <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.17</version>
+		</dependency>
+
+		<!--html热部署-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<!--xxl-job-core-->
+		<dependency>
+			<groupId>com.xuxueli</groupId>
+			<artifactId>xxl-job-core</artifactId>
+			<version>2.2.0</version>
+		</dependency>
+
+
+		<!--   <dependency>
+              <groupId>org.springframework.boot</groupId>
+              <artifactId>spring-boot-starter-websocket</artifactId>
+              <version>2.1.3.RELEASE</version>
+          </dependency> -->
+        
+		<!-- <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency> -->
+	</dependencies>
+
+	<!-- <build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build> -->
+	 <build>
+		 <!-- 扫描配置文件开始 -->
+		 <resources>
+			 <resource>
+				 <directory>src/main/java</directory>
+				 <includes>
+					 <include>**/*.properties</include>
+					 <include>**/*.xml</include>
+					 <include>**/*.yml</include>
+				 </includes>
+				 
+				 <filtering>true</filtering>
+			 </resource>
+			  <resource>
+				 <directory>src/main/resources</directory>
+				 <includes>
+					 <include>**/*.*</include>
+				 </includes>
+				 <!--
+				 <excludes>  
+                     <exclude>static/admin/fonts/**</exclude>  
+                 </excludes> 
+                  --> 
+				 <filtering>false</filtering>
+			 </resource>
+			 <!-- 
+			 <resource>  
+                 <directory>src/main/resources</directory>  
+                 <filtering>false</filtering>  
+                 <includes>  
+                     <include>static/admin/fonts/**</include>  
+                 </includes>  
+            </resource>  
+             -->
+		 </resources>
+		 <!-- 扫描配置文件结束 -->
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <configuration>
+                    <imageName>hub.cesinstitute.com.cn/admin1/${project.artifactId}:${project.version}</imageName>
+                    <dockerDirectory>src/main/docker</dockerDirectory>
+                    <forceTags>true</forceTags>
+                    <rm>true</rm>
+                    <imageTags>
+                        <imageTag>latest</imageTag>
+                    </imageTags>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                    <buildArgs>
+                        <FINAL_NAME>${project.build.finalName}</FINAL_NAME>
+                        <PROFILE_NAME>${spring.profile}</PROFILE_NAME>
+                    </buildArgs>
+                    
+                    <!-- 私有仓库配置，需要settings.xml文件配合serverId对应的服务地址 -->
+                    <serverId>docker-ceshub</serverId>
+                    <registryUrl>hub.cesinstitute.com.cn</registryUrl>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
